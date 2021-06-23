@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -23,19 +24,35 @@ const Import: React.FC = () => {
   const history = useHistory();
 
   async function handleUpload(): Promise<void> {
-    // const data = new FormData();
-
-    // TODO
-
+    console.log(uploadedFiles);
     try {
-      // await api.post('/transactions/import', data);
+      await Promise.all(
+        uploadedFiles.map(async f => {
+          const data = new FormData();
+          data.append('name', f.name);
+          data.append('file', f.file);
+          await api.post('/transactions/import', data);
+        }),
+      );
     } catch (err) {
-      // console.log(err.response.error);
+      console.log(err.response.error);
     }
   }
 
   function submitFile(files: File[]): void {
-    // TODO
+    let fps: FileProps[] = [];
+    // eslint-disable-next-line array-callback-return
+    files.map(f => {
+      const fp: FileProps = {
+        file: f,
+        name: f.name,
+        readableSize: f.size.toString(),
+      };
+      const newPush = [...fps, fp];
+      fps = newPush;
+      console.log(fps);
+    });
+    setUploadedFiles(fps);
   }
 
   return (

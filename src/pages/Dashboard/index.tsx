@@ -3,6 +3,8 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 
+import { FiChevronLeft } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import income from '../../assets/income.svg';
 import outcome from '../../assets/outcome.svg';
 import total from '../../assets/total.svg';
@@ -73,9 +75,7 @@ const Dashboard: React.FC = () => {
               <p>Entradas</p>
               <img src={income} alt="Income" />
             </header>
-            <h1 data-testid="balance-income">
-              R$ {formatValue(balance.income)}
-            </h1>
+            <h1 data-testid="balance-income">{formatValue(balance.income)}</h1>
           </Card>
           <Card>
             <header>
@@ -83,7 +83,7 @@ const Dashboard: React.FC = () => {
               <img src={outcome} alt="Outcome" />
             </header>
             <h1 data-testid="balance-outcome">
-              R$ {formatValue(balance.outcome)}
+              {'- '.concat(formatValue(balance.outcome))}
             </h1>
           </Card>
           <Card total>
@@ -91,13 +91,18 @@ const Dashboard: React.FC = () => {
               <p>Total</p>
               <img src={total} alt="Total" />
             </header>
-            <h1 data-testid="balance-total">R$ {formatValue(balance.total)}</h1>
+            <h1 data-testid="balance-total">{formatValue(balance.total)}</h1>
           </Card>
         </CardContainer>
 
         <TableContainer>
           <table>
             <thead>
+              <tr>
+                <td>
+                  <Link to="/import">Importar</Link>
+                </td>
+              </tr>
               <tr>
                 <th>Título</th>
                 <th>Preço</th>
@@ -107,9 +112,9 @@ const Dashboard: React.FC = () => {
             </thead>
             <tbody>
               {transactions.map(trans => (
-                <tr>
+                <tr key={trans.id}>
                   <td className="title">{trans.title}</td>
-                  <td className={trans.type}>R$ {trans.formattedValue}</td>
+                  <td className={trans.type}>{trans.formattedValue}</td>
                   <td>{trans.category.title}</td>
                   <td>{trans.formattedDate}</td>
                 </tr>
