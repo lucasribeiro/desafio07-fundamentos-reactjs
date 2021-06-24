@@ -70,7 +70,7 @@ const Import: React.FC = () => {
               Permitido apenas arquivos CSV
             </p>
             <button onClick={handleUpload} type="button">
-              Enviar
+              Importar
             </button>
           </Footer>
         </ImportFileContainer>
